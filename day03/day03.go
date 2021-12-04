@@ -64,21 +64,27 @@ func getRating(report []int, bitCriteria func(int, int) int) int {
 }
 
 func p2(report []int) int {
-	oxygen := getRating(report, func(count0, count1 int) int {
-		if count1 >= count0 {
-			return 1
-		} else {
-			return 0
-		}
-	})
-	co2 := getRating(report, func(count0, count1 int) int {
-		if count0 <= count1 {
-			return 0
-		} else {
-			return 1
-		}
-	})
-	return oxygen * co2
+	oxygen := make(chan int)
+	co2 := make(chan int)
+	go func() {
+		oxygen <- getRating(report, func(count0, count1 int) int {
+			if count1 >= count0 {
+				return 1
+			} else {
+				return 0
+			}
+		})
+	}()
+	go func() {
+		co2 <- getRating(report, func(count0, count1 int) int {
+			if count0 <= count1 {
+				return 0
+			} else {
+				return 1
+			}
+		})
+	}()
+	return <-oxygen * <-co2
 }
 
 func main() {
