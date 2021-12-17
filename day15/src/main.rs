@@ -36,7 +36,7 @@ fn get_graph(grid: &Vec<Vec<u32>>) -> DiGraphMap::<(usize, usize), &u32> {
             if y < grid.len() - 1 {
                 g.add_edge((x, y+1), (x, y), val);
             }
-    });
+        });
     g
 }
 
