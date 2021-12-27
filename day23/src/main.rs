@@ -1,10 +1,12 @@
 use std::fs;
 use std::collections::HashMap;
 use std::collections::hash_map::Entry;
+use std::cmp::{PartialEq, PartialOrd, Eq, Ord};
+use std::hash::Hash;
 use itertools::Itertools;
 
 
-#[derive(std::cmp::PartialEq, std::cmp::Eq, std::cmp::PartialOrd, std::cmp::Ord, std::hash::Hash, Clone)]
+#[derive(PartialEq, Eq, PartialOrd, Ord, Hash, Clone)]
 enum AmphipodaType {
     Amber,
     Bronze,
@@ -12,7 +14,7 @@ enum AmphipodaType {
     Desert
 }
 
-#[derive(std::cmp::PartialEq, std::cmp::Eq, std::cmp::PartialOrd, std::cmp::Ord, std::hash::Hash, Clone)]
+#[derive(PartialEq, Eq, PartialOrd, Ord, Hash, Clone)]
 struct Amphipoda {
     t: AmphipodaType,
     dest: i8,
@@ -148,7 +150,7 @@ impl Diagram {
 
 }
 
-#[derive(std::cmp::PartialEq, std::cmp::Eq, std::hash::Hash)]
+#[derive(PartialEq, Eq, Hash)]
 struct CacheKey(Vec<(i8, i8, AmphipodaType)>);
 
 fn solve(amphipods: HashMap<(i8, i8), Amphipoda>, room_depth: i8) -> u32 {
@@ -158,27 +160,25 @@ fn solve(amphipods: HashMap<(i8, i8), Amphipoda>, room_depth: i8) -> u32 {
     let mut min = u32::MAX;
     let mut cache: HashMap<CacheKey, u32> = HashMap::new();
 
-    while !diagrams.is_empty() {
-        if let Some(diagram) = diagrams.pop() {
-            let opt_mov = diagram.move_options(min);
-            for o in opt_mov {
-                let entry = cache.entry(CacheKey(o.amphipods.iter().map(|((x, y), a)| (*x, *y, a.t.clone())).sorted().collect()));
-                if let Entry::Occupied(mut oe) = entry {
-                    if *oe.get() > o.energy {
-                        *oe.get_mut() = o.energy;
-                    } else {
-                        continue;
-                    }
-                } else if let Entry::Vacant(ve) = entry {
-                    ve.insert(o.energy);
+    while let Some(diagram) = diagrams.pop() {
+        let opt_mov = diagram.move_options(min);
+        for o in opt_mov {
+            let entry = cache.entry(CacheKey(o.amphipods.iter().map(|((x, y), a)| (*x, *y, a.t.clone())).sorted().collect()));
+            if let Entry::Occupied(mut oe) = entry {
+                if *oe.get() > o.energy {
+                    *oe.get_mut() = o.energy;
+                } else {
+                    continue;
                 }
-                if o.energy < min {
-                    if o.amphipods.values().all(|a| a.settled) {
-                        min = o.energy;                
-                    }
-                    else {
-                        diagrams.push(o);
-                    }
+            } else if let Entry::Vacant(ve) = entry {
+                ve.insert(o.energy);
+            }
+            if o.energy < min {
+                if o.amphipods.values().all(|a| a.settled) {
+                    min = o.energy;                
+                }
+                else {
+                    diagrams.push(o);
                 }
             }
         }

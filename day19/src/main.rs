@@ -1,10 +1,11 @@
 use std::fs;
 use std::ops::{Add, Sub};
 use std::cmp::{PartialEq, PartialOrd, Eq, Ord};
+use std::hash::Hash;
 use itertools::Itertools;
 
 
-#[derive(PartialEq, Eq, PartialOrd, Ord, std::hash::Hash, Clone, Copy)]
+#[derive(PartialEq, Eq, PartialOrd, Ord, Hash, Clone, Copy)]
 struct Point {
     x: i32, y: i32, z: i32
 }

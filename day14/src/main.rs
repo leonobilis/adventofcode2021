@@ -28,37 +28,35 @@ fn process(template: &str, rules: &HashMap<String, (String, String)>, iterations
     
     let mut tasks = tasks_init.clone();
 
-    while !tasks.is_empty() {
-        if let Some((pair, i)) = tasks.pop() {
-            if i == 1 {
+    while let Some((pair, i)) = tasks.pop() {
+        if i == 1 {
+            let mut count_map = HashMap::new();
+            count_map.insert(rules.get(&pair).unwrap().0.chars().last().unwrap(), 1u64);
+            cache.insert((pair, i), count_map);
+            continue;
+        }
+        let next = rules.get(&pair).unwrap();
+        match (cache.get(&(next.0.clone(), i-1)), cache.get(&(next.1.clone(), i-1))) {
+            (Some(a), Some(b)) => {
                 let mut count_map = HashMap::new();
                 count_map.insert(rules.get(&pair).unwrap().0.chars().last().unwrap(), 1u64);
+                for (chr, count) in a {
+                    let e = count_map.entry(*chr).or_insert(0);
+                    *e += count;
+                }
+                for (chr, count) in b {
+                    let e = count_map.entry(*chr).or_insert(0);
+                    *e += count;
+                }
                 cache.insert((pair, i), count_map);
-                continue;
-            }
-            let next = rules.get(&pair).unwrap();
-            match (cache.get(&(next.0.clone(), i-1)), cache.get(&(next.1.clone(), i-1))) {
-                (Some(a), Some(b)) => {
-                    let mut count_map = HashMap::new();
-                    count_map.insert(rules.get(&pair).unwrap().0.chars().last().unwrap(), 1u64);
-                    for (chr, count) in a {
-                        let e = count_map.entry(*chr).or_insert(0);
-                        *e += count;
-                    }
-                    for (chr, count) in b {
-                        let e = count_map.entry(*chr).or_insert(0);
-                        *e += count;
-                    }
-                    cache.insert((pair, i), count_map);
-                },
-                (a, b) => {
-                    tasks.push((pair, i));
-                    if a.is_none() {
-                        tasks.push((next.0.clone(), i-1));
-                    }
-                    if b.is_none() {
-                        tasks.push((next.1.clone(), i-1))
-                    }
+            },
+            (a, b) => {
+                tasks.push((pair, i));
+                if a.is_none() {
+                    tasks.push((next.0.clone(), i-1));
+                }
+                if b.is_none() {
+                    tasks.push((next.1.clone(), i-1))
                 }
             }
         }

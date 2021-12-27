@@ -44,30 +44,28 @@ fn p2(player1: &u32, player2: &u32) -> u64 {
 
     let mut tasks = tasks_init.clone();
     
-    while !tasks.is_empty() {
-        if let Some((player_a, player_b, roll_sum)) = tasks.pop() {
-            let count = *r_count.get(&roll_sum).unwrap() as u64;
-            let new_pos = (player_a.pos + roll_sum as u32 -1) % 10 + 1;
-            let new_player_a = Player{pos: new_pos, score: player_a.score + new_pos as u64};
-            if new_player_a.score >= 21 {
-                cache.insert((player_a, player_b, roll_sum), (count, 0u64));
-                continue;
-            }
+    while let Some((player_a, player_b, roll_sum)) = tasks.pop() {
+        let count = *r_count.get(&roll_sum).unwrap() as u64;
+        let new_pos = (player_a.pos + roll_sum as u32 -1) % 10 + 1;
+        let new_player_a = Player{pos: new_pos, score: player_a.score + new_pos as u64};
+        if new_player_a.score >= 21 {
+            cache.insert((player_a, player_b, roll_sum), (count, 0u64));
+            continue;
+        }
 
-            let (universes, missing): (Vec<_>, Vec<_>) = r_count.keys()
-                .map(|roll| (roll, cache.get(&(player_b.clone(), new_player_a.clone(), *roll))))
-                .partition(|(_, cached)| cached.is_some());
-            if universes.len() == 7 {
-                let (lose_sum, win_sum) = universes.iter()
-                    .map(|(_, cached)| *cached.unwrap())
-                    .reduce(|acc, cached| (acc.0 + cached.0, acc.1 + cached.1))
-                    .unwrap();
+        let (universes, missing): (Vec<_>, Vec<_>) = r_count.keys()
+            .map(|roll| (roll, cache.get(&(player_b.clone(), new_player_a.clone(), *roll))))
+            .partition(|(_, cached)| cached.is_some());
+        if universes.len() == 7 {
+            let (lose_sum, win_sum) = universes.iter()
+                .map(|(_, cached)| *cached.unwrap())
+                .reduce(|acc, cached| (acc.0 + cached.0, acc.1 + cached.1))
+                .unwrap();
 
-                cache.insert((player_a, player_b, roll_sum), (win_sum * count, lose_sum * count));
-            } else {
-                tasks.push((player_a, player_b.clone(), roll_sum));
-                missing.iter().for_each(|(roll, _)| tasks.push((player_b.clone(), new_player_a.clone(), **roll)));
-            }
+            cache.insert((player_a, player_b, roll_sum), (win_sum * count, lose_sum * count));
+        } else {
+            tasks.push((player_a, player_b.clone(), roll_sum));
+            missing.iter().for_each(|(roll, _)| tasks.push((player_b.clone(), new_player_a.clone(), **roll)));
         }
     }
 

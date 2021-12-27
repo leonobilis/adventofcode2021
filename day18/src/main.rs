@@ -22,6 +22,7 @@ impl Pair {
         while let Some(_) = self.explosion_check(0) {};
         while let Some(_) = self.split_check(0) {};   
     }
+
     fn explosion_check(&mut self, i: u8) -> Option<(Option<u32>, Option<u32>)> {
         let check_result = match (i, &self.left, &self.right) {
             (3, PairValue::Pair(_), _) => CheckResult::ExplodeLeft,
@@ -79,6 +80,7 @@ impl Pair {
             _ => None
         }
     }
+
     fn split_check(&mut self, i: u8) -> Option<(Option<u32>, Option<u32>)> {
         let check_result = match (i, &self.left, &self.right) {
             (3, PairValue::Number(l), _) if *l >= 10 => CheckResult::SplitExplodeLeft,
@@ -151,24 +153,21 @@ impl PairValue {
             PairValue::Number(_) => None
         }
     }
+
     fn is_pair_ref(&mut self) -> Option<&Box<Pair>>{
         match self {
             PairValue::Pair(pair) => Some(pair),
             PairValue::Number(_) => None
         }
     }
-    fn is_number(self) -> Option<u32>{
-        match self {
-            PairValue::Number(number) => Some(number),
-            PairValue::Pair(_) => None
-        }
-    }
+
     fn is_number_ref(&self) -> Option<&u32>{
         match self {
             PairValue::Number(number) => Some(number),
             PairValue::Pair(_) => None
         }
     }
+
     fn try_add_left(&mut self, value: u32) -> Option<u32> {
         match self {
             PairValue::Number(x) => {
@@ -183,6 +182,7 @@ impl PairValue {
             }
         }
     }
+
     fn try_add_right(&mut self, value: u32) -> Option<u32> {
         match self {
             PairValue::Number(x) => {
@@ -197,18 +197,21 @@ impl PairValue {
             }
         }
     }
+
     fn explosion_check(&mut self, i: u8) -> Option<(Option<u32>, Option<u32>)> {
         match self {
             PairValue::Pair(p) => p.explosion_check(i),
             PairValue::Number(_) => None
         }
     }
+
     fn split_check(&mut self, i: u8) -> Option<(Option<u32>, Option<u32>)> {
         match self {
             PairValue::Pair(p) => p.split_check(i),
             PairValue::Number(_) => None
         }
     }
+
     fn magnitude(&self) -> u32 {
         match self {
             PairValue::Pair(p) => 3*p.left.magnitude() + 2*p.right.magnitude(),
@@ -244,8 +247,8 @@ fn parse_input(inp: &String) -> Vec<Box<Pair>> {
 
 fn p1(mut numbers: Vec<Box<Pair>>) -> u32 {
     let mut add = PairValue::Pair(numbers.pop().unwrap());
-    while !numbers.is_empty() {
-        let r = PairValue::Pair(numbers.pop().unwrap());
+    while let Some(number) = numbers.pop() {
+        let r = PairValue::Pair(number);
         let mut a = Box::new(Pair{left: add, right: r});
         a.reduce();
         add = PairValue::Pair(a);
@@ -253,7 +256,7 @@ fn p1(mut numbers: Vec<Box<Pair>>) -> u32 {
     add.magnitude()
 }
 
-fn p2 (numbers: Vec<Box<Pair>>) -> Vec<u32> {
+fn p2(numbers: Vec<Box<Pair>>) -> Vec<u32> {
     numbers.iter().rev().permutations(2).map(|v| {
         let a = PairValue::Pair(v[0].clone());
         let b = PairValue::Pair(v[1].clone());
