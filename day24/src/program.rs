@@ -1,6 +1,5 @@
-// from input 
+// from input
 pub fn run(inputs: &[u8]) -> i64 {
-
     let mut w: i64;
     let mut x: i64 = 0;
     let mut y: i64 = 0;
@@ -12,8 +11,8 @@ pub fn run(inputs: &[u8]) -> i64 {
     x %= 26;
     z /= 1;
     x += 12;
-    x = if x == w {1} else {0};
-    x = if x == 0 {1} else {0};
+    x = if x == w { 1 } else { 0 };
+    x = if x == 0 { 1 } else { 0 };
     y *= 0;
     y += 25;
     y *= x;
@@ -30,8 +29,8 @@ pub fn run(inputs: &[u8]) -> i64 {
     x %= 26;
     z /= 1;
     x += 13;
-    x = if x == w {1} else {0};
-    x = if x == 0 {1} else {0};
+    x = if x == w { 1 } else { 0 };
+    x = if x == 0 { 1 } else { 0 };
     y *= 0;
     y += 25;
     y *= x;
@@ -48,8 +47,8 @@ pub fn run(inputs: &[u8]) -> i64 {
     x %= 26;
     z /= 1;
     x += 12;
-    x = if x == w {1} else {0};
-    x = if x == 0 {1} else {0};
+    x = if x == w { 1 } else { 0 };
+    x = if x == 0 { 1 } else { 0 };
     y *= 0;
     y += 25;
     y *= x;
@@ -66,8 +65,8 @@ pub fn run(inputs: &[u8]) -> i64 {
     x %= 26;
     z /= 26;
     x += -13;
-    x = if x == w {1} else {0};
-    x = if x == 0 {1} else {0};
+    x = if x == w { 1 } else { 0 };
+    x = if x == 0 { 1 } else { 0 };
     y *= 0;
     y += 25;
     y *= x;
@@ -84,8 +83,8 @@ pub fn run(inputs: &[u8]) -> i64 {
     x %= 26;
     z /= 1;
     x += 11;
-    x = if x == w {1} else {0};
-    x = if x == 0 {1} else {0};
+    x = if x == w { 1 } else { 0 };
+    x = if x == 0 { 1 } else { 0 };
     y *= 0;
     y += 25;
     y *= x;
@@ -102,8 +101,8 @@ pub fn run(inputs: &[u8]) -> i64 {
     x %= 26;
     z /= 1;
     x += 15;
-    x = if x == w {1} else {0};
-    x = if x == 0 {1} else {0};
+    x = if x == w { 1 } else { 0 };
+    x = if x == 0 { 1 } else { 0 };
     y *= 0;
     y += 25;
     y *= x;
@@ -120,8 +119,8 @@ pub fn run(inputs: &[u8]) -> i64 {
     x %= 26;
     z /= 26;
     x += -14;
-    x = if x == w {1} else {0};
-    x = if x == 0 {1} else {0};
+    x = if x == w { 1 } else { 0 };
+    x = if x == 0 { 1 } else { 0 };
     y *= 0;
     y += 25;
     y *= x;
@@ -138,8 +137,8 @@ pub fn run(inputs: &[u8]) -> i64 {
     x %= 26;
     z /= 1;
     x += 12;
-    x = if x == w {1} else {0};
-    x = if x == 0 {1} else {0};
+    x = if x == w { 1 } else { 0 };
+    x = if x == 0 { 1 } else { 0 };
     y *= 0;
     y += 25;
     y *= x;
@@ -156,8 +155,8 @@ pub fn run(inputs: &[u8]) -> i64 {
     x %= 26;
     z /= 26;
     x += -8;
-    x = if x == w {1} else {0};
-    x = if x == 0 {1} else {0};
+    x = if x == w { 1 } else { 0 };
+    x = if x == 0 { 1 } else { 0 };
     y *= 0;
     y += 25;
     y *= x;
@@ -174,8 +173,8 @@ pub fn run(inputs: &[u8]) -> i64 {
     x %= 26;
     z /= 1;
     x += 14;
-    x = if x == w {1} else {0};
-    x = if x == 0 {1} else {0};
+    x = if x == w { 1 } else { 0 };
+    x = if x == 0 { 1 } else { 0 };
     y *= 0;
     y += 25;
     y *= x;
@@ -192,8 +191,8 @@ pub fn run(inputs: &[u8]) -> i64 {
     x %= 26;
     z /= 26;
     x += -9;
-    x = if x == w {1} else {0};
-    x = if x == 0 {1} else {0};
+    x = if x == w { 1 } else { 0 };
+    x = if x == 0 { 1 } else { 0 };
     y *= 0;
     y += 25;
     y *= x;
@@ -210,8 +209,8 @@ pub fn run(inputs: &[u8]) -> i64 {
     x %= 26;
     z /= 26;
     x += -11;
-    x = if x == w {1} else {0};
-    x = if x == 0 {1} else {0};
+    x = if x == w { 1 } else { 0 };
+    x = if x == 0 { 1 } else { 0 };
     y *= 0;
     y += 25;
     y *= x;
@@ -228,8 +227,8 @@ pub fn run(inputs: &[u8]) -> i64 {
     x %= 26;
     z /= 26;
     x += -6;
-    x = if x == w {1} else {0};
-    x = if x == 0 {1} else {0};
+    x = if x == w { 1 } else { 0 };
+    x = if x == 0 { 1 } else { 0 };
     y *= 0;
     y += 25;
     y *= x;
@@ -246,8 +245,8 @@ pub fn run(inputs: &[u8]) -> i64 {
     x %= 26;
     z /= 26;
     x += -5;
-    x = if x == w {1} else {0};
-    x = if x == 0 {1} else {0};
+    x = if x == w { 1 } else { 0 };
+    x = if x == 0 { 1 } else { 0 };
     y *= 0;
     y += 25;
     y *= x;
