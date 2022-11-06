@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	utils "github.com/lev7/adventofcode2021"
+	"github.com/leonobilis/adventofcode2021/utils"
 )
 
 var uniqueSegNum = []int{2, 3, 4, 7}

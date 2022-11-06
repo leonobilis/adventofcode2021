@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"strings"
 
-	utils "github.com/lev7/adventofcode2021"
+	"github.com/leonobilis/adventofcode2021/utils"
 )
 
 const maxTimer = 9

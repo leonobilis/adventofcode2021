@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	utils "github.com/lev7/adventofcode2021"
+	"github.com/leonobilis/adventofcode2021/utils"
 )
 
 func p1(entries []int) int {
